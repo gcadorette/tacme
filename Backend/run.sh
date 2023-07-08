@@ -1,0 +1,1 @@
+flask --app 'tacme:create_app(False)' run
