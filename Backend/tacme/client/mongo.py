@@ -8,5 +8,8 @@ def get_database():
 def get_memes_collection():
     return get_database()['memes']
 
-def get_user_collection():
+def get_users_collection():
     return get_database()['users']
+
+def get_sessions_collection():
+    return get_database()['sessions']

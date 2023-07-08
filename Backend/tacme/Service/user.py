@@ -1,19 +1,14 @@
 from tacme.model.login_request import LoginRequest
-from tacme.model.user import User
-from tacme.model.file_format import FileFormat
-from tacme.model.meme import Meme
-from tacme.client.mongo import get_user_collection
-import hashlib
+from tacme.service.crypto import generate_hash
+from tacme.client.mongo import get_users_collection
+from tacme.service.session import create_session
 
 def attempt_login(login_request: LoginRequest):
-    user = get_user_collection().find_one({'username': login_request.username})
+    user = get_users_collection().find_one({'username': login_request.username})
     if user == None:
         return ''
     salted_password = f'{user["salt"]}{login_request.password}'
-    hashgen = hashlib.sha512()
-    hashgen.update(str.encode(salted_password))
-    login_hash = hashgen.hexdigest()
+    login_hash = generate_hash(salted_password)
     if login_hash == user['hash']:
-        # take care of session here :)
-        return 'sessionId'
+        return create_session()
     return ''
