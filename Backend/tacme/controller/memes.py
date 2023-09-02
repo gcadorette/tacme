@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from tacme.service.meme import get_all_memes, add_meme
 from tacme.service.session import is_valid
 from tacme.model.add_file_request import AddFileRequest
-from tacme.model.exceptions import UNAUTHORIZED_EXCEPTION, SERVER_ERROR
+from tacme.model.exceptions import UNAUTHORIZED_EXCEPTION, SERVER_ERROR, SUCCESS
 memes = Blueprint('memes', __name__, url_prefix='/memes')
 
 @memes.route('/', methods=['GET'])
@@ -20,7 +20,7 @@ def post_meme():
         inserted_id = add_meme(meme_request.meme)
         if inserted_id is None:
             return SERVER_ERROR
-        return inserted_id
+        return  SUCCESS
 
 
 @memes.route('/allo', methods=['GET'])
